@@ -1,0 +1,73 @@
+11:29:56 AM: Netlify Build                                                 
+11:29:56 AM: ────────────────────────────────────────────────────────────────
+11:29:56 AM: ​
+11:29:56 AM: ❯ Version
+11:29:56 AM:   @netlify/build 33.4.0
+11:29:56 AM: ​
+11:29:56 AM: ❯ Flags
+11:29:56 AM:   accountId: 6835b9e89ddf36cbb9dd653e
+11:29:56 AM:   baseRelDir: true
+11:29:56 AM:   buildId: 683d3dc68105610008b3f2a8
+11:29:56 AM:   deployId: 683d3dc68105610008b3f2aa
+11:29:56 AM: ​
+11:29:56 AM: ❯ Current directory
+11:29:56 AM:   /opt/build/repo
+11:29:56 AM: ​
+11:29:56 AM: ❯ Config file
+11:29:56 AM:   /opt/build/repo/netlify.toml
+11:29:56 AM: ​
+11:29:56 AM: ❯ Context
+11:29:56 AM:   production
+11:29:56 AM: ​
+11:29:56 AM: build.command from netlify.toml                               
+11:29:56 AM: ────────────────────────────────────────────────────────────────
+11:29:56 AM: ​
+11:29:56 AM: $ npm ci && ./node_modules/.bin/vite build
+11:30:02 AM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+11:30:02 AM: added 372 packages, and audited 373 packages in 5s
+11:30:02 AM: 52 packages are looking for funding
+11:30:02 AM:   run `npm fund` for details
+11:30:02 AM: found 0 vulnerabilities
+11:30:02 AM: bash: line 1: ./node_modules/.bin/vite: No such file or directory
+11:30:02 AM: ​
+11:30:02 AM: "build.command" failed                                        
+11:30:02 AM: ────────────────────────────────────────────────────────────────
+11:30:02 AM: ​
+11:30:02 AM:   Error message
+11:30:02 AM:   Command failed with exit code 127: npm ci && ./node_modules/.bin/vite build (https://ntl.fyi/exit-code-127)
+11:30:02 AM: ​
+11:30:02 AM:   Error location
+11:30:02 AM:   In build.command from netlify.toml:
+11:30:02 AM:   npm ci && ./node_modules/.bin/vite build
+11:30:02 AM: ​
+11:30:02 AM:   Resolved config
+11:30:02 AM:   build:
+11:30:02 AM:     command: npm ci && ./node_modules/.bin/vite build
+11:30:02 AM:     commandOrigin: config
+11:30:02 AM:     environment:
+11:30:02 AM:       - VITE_GEMINI_API_KEY
+11:30:02 AM:       - NODE_VERSION
+11:30:02 AM:       - NODE_ENV
+11:30:02 AM:     processing:
+11:30:02 AM:       skip_processing: false
+11:30:02 AM:     publish: /opt/build/repo/dist
+11:30:02 AM:     publishOrigin: config
+11:30:02 AM:   headers:
+11:30:02 AM:     - for: /*
+      values:
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+        X-XSS-Protection: 1; mode=block
+    - for: /assets/*
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+  headersOrigin: config
+  redirects:
+    - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+11:30:02 AM: Build failed due to a user error: Build script returned non-zero exit code: 2
+11:30:02 AM: Failing build: Failed to build site
+11:30:02 AM: Finished processing build request in 23.001s

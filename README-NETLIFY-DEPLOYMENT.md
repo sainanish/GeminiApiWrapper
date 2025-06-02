@@ -31,7 +31,7 @@ Note: The `VITE_` prefix is required for environment variables to be accessible 
 ### 3. Build Settings (Auto-configured)
 
 The `netlify.toml` file already configures:
-- **Build command**: `npm run build`
+- **Build command**: `npm install && npx --yes vite@5.4.14 build`
 - **Publish directory**: `dist`
 - **Node.js version**: 20
 
