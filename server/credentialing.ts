@@ -1,6 +1,6 @@
 import { CredentialingRequest, EvaluationResult } from "@shared/schema";
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || "AIzaSyDxPpuTFmOcO0e0pTf1YPQzpQyww96Wx7I";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 const SYSTEM_PROMPT = `
 You are a credentialing compliance assistant for a U.S.-based medical insurance company. You are reviewing multiple documents uploaded by a doctor to evaluate whether they meet credentialing requirements.
@@ -51,6 +51,10 @@ Return a JSON like this:
 `;
 
 export async function callGeminiAPI(combinedDocuments: string): Promise<EvaluationResult> {
+  if (!GEMINI_API_KEY) {
+    throw new Error("Gemini API key is not configured. Please check your environment variables.");
+  }
+
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   const headers = {
