@@ -1,6 +1,6 @@
 [build]
   # Build command for client-only build
-  command = "npm ci && npx vite build"
+  command = "npm ci && ./node_modules/.bin/vite build"
   
   # Directory to publish (built files)
   publish = "dist"

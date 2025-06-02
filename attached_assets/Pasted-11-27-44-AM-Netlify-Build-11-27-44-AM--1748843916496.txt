@@ -1,0 +1,84 @@
+11:27:44 AM: Netlify Build                                                 
+11:27:44 AM: ────────────────────────────────────────────────────────────────
+11:27:44 AM: ​
+11:27:44 AM: ❯ Version
+11:27:44 AM:   @netlify/build 33.4.0
+11:27:44 AM: ​
+11:27:44 AM: ❯ Flags
+11:27:44 AM:   accountId: 6835b9e89ddf36cbb9dd653e
+11:27:44 AM:   baseRelDir: true
+11:27:44 AM:   buildId: 683d3d4a600b1300080a8417
+11:27:44 AM:   deployId: 683d3d4a600b1300080a8419
+11:27:44 AM: ​
+11:27:44 AM: ❯ Current directory
+11:27:44 AM:   /opt/build/repo
+11:27:44 AM: ​
+11:27:44 AM: ❯ Config file
+11:27:44 AM:   /opt/build/repo/netlify.toml
+11:27:44 AM: ​
+11:27:44 AM: ❯ Context
+11:27:44 AM:   production
+11:27:44 AM: ​
+11:27:44 AM: build.command from netlify.toml                               
+11:27:44 AM: ────────────────────────────────────────────────────────────────
+11:27:44 AM: ​
+11:27:44 AM: $ npm ci && npx vite build
+11:27:48 AM: added 372 packages, and audited 373 packages in 4s
+11:27:48 AM: 52 packages are looking for funding
+11:27:48 AM:   run `npm fund` for details
+11:27:48 AM: found 0 vulnerabilities
+11:27:49 AM: npm warn exec The following package was not found and will be installed: vite@6.3.5
+11:27:52 AM: failed to load config from /opt/build/repo/vite.config.ts
+11:27:52 AM: error during build:
+11:27:52 AM: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/build/repo/node_modules/.vite-temp/vite.config.ts.timestamp-1748843872585-f645ace833357.mjs
+11:27:52 AM:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+11:27:52 AM:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+11:27:52 AM:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+11:27:52 AM:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:642:12)
+11:27:52 AM:     at #cachedDefaultResolve (node:internal/modules/esm/loader:591:25)
+11:27:52 AM:     at ModuleLoader.resolve (node:internal/modules/esm/loader:574:38)
+11:27:52 AM:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:236:38)
+11:27:52 AM:     at ModuleJob._link (node:internal/modules/esm/module_job:130:49)
+11:27:52 AM: ​
+11:27:52 AM: "build.command" failed                                        
+11:27:52 AM: ────────────────────────────────────────────────────────────────
+11:27:52 AM: ​
+11:27:52 AM:   Error message
+11:27:52 AM:   Command failed with exit code 1: npm ci && npx vite build (https://ntl.fyi/exit-code-1)
+11:27:52 AM: ​
+11:27:52 AM:   Error location
+11:27:52 AM:   In build.command from netlify.toml:
+11:27:52 AM:   npm ci && npx vite build
+11:27:52 AM: ​
+11:27:52 AM:   Resolved config
+11:27:52 AM:   build:
+11:27:52 AM:     command: npm ci && npx vite build
+11:27:52 AM:     commandOrigin: config
+11:27:52 AM:     environment:
+11:27:52 AM:       - VITE_GEMINI_API_KEY
+11:27:52 AM:       - NODE_VERSION
+11:27:52 AM:       - NODE_ENV
+11:27:52 AM:     processing:
+11:27:52 AM:       skip_processing: false
+11:27:52 AM:     publish: /opt/build/repo/dist
+11:27:52 AM:     publishOrigin: config
+11:27:52 AM:   headers:
+11:27:53 AM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+11:27:53 AM:     - for: /*
+      values:
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+        X-XSS-Protection: 1; mode=block
+    - for: /assets/*
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+  headersOrigin: config
+  redirects:
+    - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+11:27:53 AM: Build failed due to a user error: Build script returned non-zero exit code: 2
+11:27:53 AM: Failing build: Failed to build site
+11:27:53 AM: Finished processing build request in 21.975s
