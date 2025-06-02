@@ -1,0 +1,117 @@
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import requests
+import json
+
+app = FastAPI()
+
+# Update this with your actual API key
+GEMINI_API_KEY = "AIzaSyDxPpuTFmOcO0e0pTf1YPQzpQyww96Wx7I"
+
+# Request model for input
+class CredentialingRequest(BaseModel):
+    resume: str
+    medical_license: str
+    dea_id: str
+    malpractice_insurance: str
+    board_certification: str
+    caqh_attestation: str
+    w9: str
+
+# Credentialing assistant system prompt
+SYSTEM_PROMPT = """
+You are a credentialing compliance assistant for a U.S.-based medical insurance company. You are reviewing multiple documents uploaded by a doctor to evaluate whether they meet credentialing requirements.
+
+Each document contains unstructured text. You must extract required fields and check for completeness, consistency, validity, and expiration.
+
+### Credentialing Rules:
+
+1. Resume:
+- Must include: full name, contact info, degrees (MBBS, MD, etc.), institute names, graduation years, specialties, internships/residencies, work history (hospital, role, dates), board memberships, clinical skills, CME (courses/trainings).
+- Flag: missing dates, career gaps, no board certs, no hospital affiliations, lack of CME, vague or sloppy formatting.
+
+2. Medical License:
+- Must include: license number, issuing authority (state/NMC/MCI), expiry date (must be valid), active status, correct jurisdiction.
+- Flag: expired, suspended, fake, inconsistent name.
+
+3. DEA ID Card:
+- Must include: DEA number, doctor’s name & address, expiry date, drug schedule.
+- Flag: expired, unverified, name/address mismatch.
+
+4. Malpractice Insurance:
+- Must include: doctor name match, effective + expiry dates, ≥ $1M/$3M coverage, insurer name, specialty match.
+- Flag: low/lapsed coverage, missing details, undisclosed claims.
+
+5. Board Certification:
+- Must include: board name (e.g., ABMS), specialty, valid date.
+- Flag: expired cert, wrong board, missing board cert for claimed field.
+
+6. CAQH Attestation:
+- Must include: updated within 120 days, includes license info, insurance, work history, references.
+- Flag: outdated, incomplete, inconsistent with resume/license.
+
+7. W-9 Form:
+- Must include: doctor/practice name, address, TIN/SSN/EIN, signature + date, recent tax year.
+- Flag: missing or invalid TIN, unsigned, outdated.
+
+---
+
+### Output Format:
+Return a JSON like this:
+
+{
+  "doctor_name": "Extracted full name or 'Unknown'",
+  "result": "Pass" or "Fail",
+  "issues": ["List of all problems"],
+  "next_steps": ["Instructions to fix each issue"]
+}
+"""
+
+def call_gemini_api(combined_documents: str) -> dict:
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "contents": [
+            {
+                "role": "user",
+                "parts": [
+                    {
+                        "text": SYSTEM_PROMPT + "\n\nDocuments:\n" + combined_documents
+                    }
+                ]
+            }
+        ]
+    }
+
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+
+    if response.status_code == 200:
+        result = response.json()
+        return result['candidates'][0]['content']['parts'][0]['text']
+    else:
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+
+@app.post("/evaluate")
+def evaluate_documents(request: CredentialingRequest):
+    combined = f"""
+    Resume:\n{request.resume}\n
+    Medical License:\n{request.medical_license}\n
+    DEA ID:\n{request.dea_id}\n
+    Malpractice Insurance:\n{request.malpractice_insurance}\n
+    Board Certification:\n{request.board_certification}\n
+    CAQH Attestation:\n{request.caqh_attestation}\n
+    W-9 Form:\n{request.w9}
+    """
+
+    try:
+        evaluation_text = call_gemini_api(combined)
+        return json.loads(evaluation_text)
+    except json.JSONDecodeError:
+        return {
+            "error": "LLM did not return a valid JSON. Raw output:",
+            "raw_output": evaluation_text
+        }
