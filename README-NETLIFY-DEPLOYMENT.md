@@ -23,8 +23,10 @@ In your Netlify site settings:
 
 1. Go to **Site settings** → **Environment variables**
 2. Add the following variable:
-   - **Key**: `GEMINI_API_KEY`
+   - **Key**: `VITE_GEMINI_API_KEY`
    - **Value**: Your Gemini API key
+
+Note: The `VITE_` prefix is required for environment variables to be accessible in the frontend build.
 
 ### 3. Build Settings (Auto-configured)
 
@@ -41,9 +43,16 @@ The `netlify.toml` file already configures:
 
 ## Important Notes
 
-- **API Routes**: This application uses client-side only deployment. The Gemini AI calls are made directly from the browser.
-- **CORS**: The Gemini API supports CORS, so browser requests work fine.
-- **Security**: Your API key is securely stored in Netlify's environment variables.
+- **Client-Side Deployment**: This application now makes direct API calls to Gemini from the browser, eliminating the need for a backend server.
+- **CORS Support**: The Gemini API supports cross-origin requests, enabling browser-based calls.
+- **API Key Security**: Your Gemini API key is stored securely in Netlify's environment variables and only exposed during the build process.
+
+## Build Troubleshooting
+
+If your build fails with "vite: not found":
+1. Ensure your repository includes `package-lock.json`
+2. The build command `npm ci && npx vite build` will install dependencies and build the project
+3. Check that all dependencies are listed in `package.json`
 
 ## Custom Domain (Optional)
 

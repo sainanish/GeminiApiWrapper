@@ -1,6 +1,6 @@
 [build]
-  # Build command
-  command = "npm run build"
+  # Build command for client-only build
+  command = "npm ci && npx vite build"
   
   # Directory to publish (built files)
   publish = "dist"
@@ -16,12 +16,6 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200
-
-# API redirects for serverless functions (if using Netlify Functions)
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
   status = 200
 
 # Headers for better performance and security
@@ -41,9 +35,12 @@
 # Environment variables (these will need to be set in Netlify dashboard)
 [context.production.environment]
   NODE_ENV = "production"
+  VITE_GEMINI_API_KEY = ""
 
 [context.deploy-preview.environment]
   NODE_ENV = "development"
+  VITE_GEMINI_API_KEY = ""
 
 [context.branch-deploy.environment]
   NODE_ENV = "development"
+  VITE_GEMINI_API_KEY = ""

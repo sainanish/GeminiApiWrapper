@@ -7,8 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { apiRequest } from '@/lib/queryClient';
 import { extractTextFromFile } from '@/lib/utils';
+import { callGeminiAPI, combineDocuments } from '@/lib/gemini';
 import { CredentialingRequest, EvaluationResult } from '@shared/schema';
 import { 
   FileText, 
@@ -114,8 +114,8 @@ export default function CredentialingPage() {
 
   const evaluationMutation = useMutation({
     mutationFn: async (data: CredentialingRequest) => {
-      const response = await apiRequest('POST', '/api/evaluate', data);
-      return response.json();
+      const combinedDocuments = combineDocuments(data);
+      return await callGeminiAPI(combinedDocuments);
     },
     onSuccess: (result: EvaluationResult) => {
       setEvaluationResult(result);
